@@ -1,25 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { configureStore } from "@reduxjs/toolkit";
+import createSagaMiddleleware from 'redux-saga';
+import rootReducer from './store/reducers';
+import rootSaga from './sagas';
+import Menu from './components/menu/Menu';
+import LoginMessage from './components/loginInterface/LoginMessage';
+import LoginPage from './components/loginInterface/LoginPage';
+
+const sagaMiddleware = createSagaMiddleleware();
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: [sagaMiddleware],
+
+});
+
+sagaMiddleware.run(rootSaga);
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <Router>
+        <div className="App">
+          <Menu />
+          <Routes>
+            <Route path="/" element={<LoginMessage />} />
+            <Route path="/login" element={<LoginPage />} />
+          </Routes>
+        </div>
+      </Router>
+    </Provider>
+
   );
 }
 
