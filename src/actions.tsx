@@ -6,6 +6,8 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const SET_USERNAME = 'SET_USERNAME';
 export const SET_PASSWORD = 'SET_PASSWORD';
+export const ADDITEM = 'ADD_ITEM';
+export const UPDATEITEM = 'UPDATE_ITEM';
 
 
 export const setUsername = (username: string): SetUsernameAction => {
@@ -30,6 +32,7 @@ export const loginRequest = (username: string, password: string): LoginRequestAc
 export const loginSuccess = (): LoginSuccessAction => ({
     type: LOGIN_SUCCESS,
     payload: {
+
 
     }
 });

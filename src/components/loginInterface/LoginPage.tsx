@@ -1,32 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setUsername, setPassword } from '../../actions';
+import { setUsername, setPassword, loginRequest, loginFailure } from '../../actions';
 
 
 const LoginPage = () => {
     const navigate = useNavigate();
     const username = useSelector((state: any) => state.auth.username);
     const password = useSelector((state: any) => state.auth.password);
+    const isLoggedIn = useSelector((state: any) => state.auth.isLoggedIn);
+    const error = useSelector((state: any) => state.auth.error);
 
 
     const dispatch = useDispatch();
 
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        dispatch(loginRequest(username, password));
 
-        // Effectuez ici la logique de validation et d'authentification
-        // Remplacez cet exemple par votre propre logique
-
-        // Exemple : Vérifier si les identifiants sont valides
-        if (username === 'admin' && password === 'password') {
-            // Rediriger vers la page de connexion réussie
-            navigate('/dashboard');
-        } else {
-            // Gérer les erreurs d'authentification
-            console.log('Identifiant ou mot de passe incorrect');
-        }
     };
+    useEffect(() => {
+        if (isLoggedIn) {
+            navigate('/dashboard');
+        }
+    }, [isLoggedIn, navigate]);
+
 
     const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(setUsername(e.target.value));
@@ -37,8 +35,8 @@ const LoginPage = () => {
     };
 
     return (
-        <div>
-            <h2>Connexion</h2>
+        <div className="global-container">
+            <h2 className='home-title'>Connexion</h2>
             <form onSubmit={handleFormSubmit}>
                 <div>
                     <label htmlFor="username">Identifiant:</label>
@@ -59,6 +57,7 @@ const LoginPage = () => {
                     />
                 </div>
                 <button type="submit">Se connecter</button>
+                {error && <p>{error.toString()}</p>}
             </form>
         </div>
     );

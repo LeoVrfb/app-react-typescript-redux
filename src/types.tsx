@@ -48,5 +48,16 @@ export type AuthAction =
 
 
 
+export interface CartItem {
+    title: string;
+    price: number;
+    img: string;
+    id: number;
+    quantity: number;
+    // Ajoutez d'autres propriétés nécessaires pour un article dans le panier
+}
+
+
+
 
 // Autres types liés à l'application
