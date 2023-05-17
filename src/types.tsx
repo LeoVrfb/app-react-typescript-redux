@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGIN_FAILURE, SET_USERNAME, SET_PASSWORD, LOGIN_REQUEST } from './actions';
+import { LOGIN_SUCCESS, LOGIN_FAILURE, SET_USERNAME, SET_PASSWORD, LOGIN_REQUEST, SET_CART_PRICE } from './actions';
 import { Action } from 'redux';
 
 export interface AuthState {
@@ -38,6 +38,11 @@ export interface SetPasswordAction extends Action<typeof SET_PASSWORD> {
         password: string;
     };
 }
+export interface TotalPriceAction extends Action<typeof SET_CART_PRICE> {
+    payload: {
+        cartPrice: number;
+    };
+}
 
 export type AuthAction =
     | LoginRequestAction
@@ -47,15 +52,6 @@ export type AuthAction =
     | SetPasswordAction;
 
 
-
-export interface CartItem {
-    title: string;
-    price: number;
-    img: string;
-    id: number;
-    quantity: number;
-    // Ajoutez d'autres propriétés nécessaires pour un article dans le panier
-}
 
 
 

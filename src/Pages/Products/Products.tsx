@@ -28,7 +28,7 @@ export default function Products() {
                             </div>
                             <div className="info">
                                 <p>{item.title}</p>
-                                <p>Prix : {item.title}€</p>
+                                <p>Prix : {item.price}€</p>
                             </div>
                         </div>
                         <div className="back-card"></div>

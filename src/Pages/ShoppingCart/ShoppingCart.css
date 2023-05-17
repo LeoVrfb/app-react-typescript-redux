@@ -49,6 +49,7 @@
     padding: 10px 12px;
     font-size: 18px;
     margin: 20px auto 0;
+    cursor: pointer;
 }
 
 .bloc-cart-infos p {
@@ -58,4 +59,8 @@
 .total-price {
     margin-top: 10px;
     font-size: 20px;
+}
+
+.notVisible {
+    display: none;
 }

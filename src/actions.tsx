@@ -1,5 +1,5 @@
 // actions.tsx
-import { SetUsernameAction, SetPasswordAction, LoginRequestAction, LoginSuccessAction, LoginFailureAction } from './types'
+import { SetUsernameAction, SetPasswordAction, LoginRequestAction, LoginSuccessAction, LoginFailureAction, TotalPriceAction } from './types'
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -8,6 +8,7 @@ export const SET_USERNAME = 'SET_USERNAME';
 export const SET_PASSWORD = 'SET_PASSWORD';
 export const ADDITEM = 'ADD_ITEM';
 export const UPDATEITEM = 'UPDATE_ITEM';
+export const SET_CART_PRICE = 'SET_CART_PRICE';
 
 
 export const setUsername = (username: string): SetUsernameAction => {
@@ -40,4 +41,9 @@ export const loginSuccess = (): LoginSuccessAction => ({
 export const loginFailure = (error: string): LoginFailureAction => ({
     type: LOGIN_FAILURE,
     payload: { error },
+});
+
+export const setCartPrice = (cartPrice: number): TotalPriceAction => ({
+    type: SET_CART_PRICE,
+    payload: { cartPrice },
 });

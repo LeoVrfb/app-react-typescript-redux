@@ -6,6 +6,7 @@ interface Item {
 
 interface State {
     cart: Item[];
+    cartPrice: number,
 }
 
 interface Action {
@@ -15,6 +16,7 @@ interface Action {
 
 const INITIAL_STATE: State = {
     cart: [],
+    cartPrice: 0,
 };
 
 export default function cartReducer(state = INITIAL_STATE, action: Action) {
@@ -33,6 +35,7 @@ export default function cartReducer(state = INITIAL_STATE, action: Action) {
                 newArr.splice(indexItemAdd, 1, updateQuantity)
 
                 return {
+                    ...state,
                     cart: newArr
                 }
 
@@ -40,6 +43,7 @@ export default function cartReducer(state = INITIAL_STATE, action: Action) {
                 const newArr = [...state.cart]
                 newArr.push(action.payload)
                 return {
+                    ...state,
                     cart: newArr
                 }
             }
@@ -52,13 +56,21 @@ export default function cartReducer(state = INITIAL_STATE, action: Action) {
             newArr.splice(indexItemUpdate, 1, action.payload)
 
             return {
+                ...state,
                 cart: newArr,
             }
+        case "SET_CART_PRICE":
+
+            return {
+                ...state,
+                cartPrice: action.payload,
+            };
 
         case "REMOVEITEM":
             const cartFilter = state.cart.filter(element => element.id === action.payload.id)
 
             return {
+                ...state,
                 cart: cartFilter,
             }
         default:
