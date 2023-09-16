@@ -48,6 +48,11 @@
     margin-bottom: 20px;
 }
 
+form p:last-child {
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
 .product-infos label {
     display: block;
     margin-bottom: 5px;

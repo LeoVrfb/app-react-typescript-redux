@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
-import { CardElement, Elements } from '@stripe/react-stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
 import { useStripe, useElements } from '@stripe/react-stripe-js';
 import './Payment.css'
 import { number, expirationMonth, expirationYear } from 'card-validator';
-import { PaymentMethodResult } from '@stripe/stripe-js';
+
 
 
 

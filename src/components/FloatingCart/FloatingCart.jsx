@@ -1,16 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import cartIcon from "./shopping-cart.svg"
 import "./FloatingCart.css"
 import { Link } from "react-router-dom"
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchItemsCart } from '../../actions'
 
 
 export default function FloatingCart() {
 
-    const shoppingCart = useSelector((state: any) => state.itemsReducer)
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchItemsCart());
+    }, [dispatch]);
+
+    const shoppingCart = useSelector(state => state.auth.cart)
 
     let totalItems = 0;
-    for (const item of shoppingCart.cart) {
+    for (const item of shoppingCart) {
         totalItems += item.quantity;
     }
 

@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import heart from "./heart.svg";
 import "./Products.css";
 import { Link } from "react-router-dom";
-import inventory from "../../Data/inventory";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProducts } from "../../actions";
+
+
 
 export default function Products() {
+    const dispatch = useDispatch();
+    const inventory = useSelector((state) => state.auth.inventory);
+
+    useEffect(() => {
+        dispatch(fetchProducts());
+    }, [dispatch]);
+
     return (
         <div className="container-products">
             {inventory.map((item) => (
@@ -12,7 +22,7 @@ export default function Products() {
                     to={{
                         pathname: `/produits/${item.title.replace(/\s+/g, "").trim()}`,
                     }}
-                    key={item.id}
+                    key={item.documentId}
                 >
                     <div className="bloc-card">
                         <div className="product-card">
@@ -35,6 +45,7 @@ export default function Products() {
                     </div>
                 </Link>
             ))}
+
         </div>
     );
 }

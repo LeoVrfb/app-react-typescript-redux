@@ -15,8 +15,11 @@ const CheckoutForm = () => {
     const price = useSelector((state) => state.itemsReducer.cartPrice);
     const normalPrice = price.cartPrice * 100;
 
+
     const [cardName, setCardName] = useState('')
     const [cardNameError, setCardNameError] = useState('')
+
+
 
     const handleCardNameChange = (e) => {
         const value = e.target.value;
@@ -51,11 +54,13 @@ const CheckoutForm = () => {
             console.log(error.message)
         }
     }
-    console.log(price.cartPrice)
+    console.log()
+
 
     return (
         <form onSubmit={handleSubmit} className="payment-form">
             <div className="payment-header">
+                <h2>{price.cartPrice} EUR</h2>
                 <h2>Paiement sécurisé</h2>
                 <p>Veuillez entrer les détails de votre carte de crédit pour effectuer le paiement.</p>
             </div>

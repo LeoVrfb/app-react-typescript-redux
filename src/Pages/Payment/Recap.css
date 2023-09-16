@@ -1,0 +1,39 @@
+.card-list li {
+    background: #f1f1f1;
+    display: flex;
+    align-items: center;
+    padding: 6px;
+}
+
+.card-list li img {
+    margin-top: 0px;
+    width: 50px;
+}
+
+.bloc-card-infos {
+    padding: 2px 2px;
+    height: 100%;
+}
+
+.card-list li h4 {
+    font-size: 14px;
+}
+
+.card-list p {
+    font-size: 15px;
+}
+
+.bloc-input {
+    margin-left: auto;
+}
+
+.bloc-input label {
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.card-list input {
+    padding: 5px;
+    width: 75px;
+    font-size: 15px;
+}

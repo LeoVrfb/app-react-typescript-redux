@@ -1,0 +1,25 @@
+.floating-profil {
+    position: absolute;
+    top: 15px;
+    right: 170px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #222;
+}
+
+.para {
+    margin-right: 10px;
+}
+
+.img-notif-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.img-notif-container img {
+    width: 50px;
+}

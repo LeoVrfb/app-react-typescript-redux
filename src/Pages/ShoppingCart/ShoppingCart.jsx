@@ -1,63 +1,91 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./ShoppingCart.css"
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
-import StripeContainer from '../Payment/StripeContainer';
-import { setCartPrice } from '../../actions';
+import { fetchItemsCart, setCartPrice, setIsFromPayment, updateQuantityItemCart } from '../../actions';
 
 
 export default function ShoppingCart() {
 
-    const storeState = useSelector((state) => state.itemsReducer);
-
+    const inventoryCart = useSelector((state) => state.auth.cart);
+    const [myCart, setMyCart] = useState(inventoryCart);
+    const cartPrice = useSelector((state) => state.auth.cartPrice);
+    const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+    const [objUpdated, setObjUpdated] = useState({})
     const dispatch = useDispatch()
 
 
+    useEffect(() => {
+        dispatch(fetchItemsCart());
+    }, [dispatch]);
 
-    const handleChange = (event, id) => {
-        const indexItem = storeState.cart.findIndex((obj) => obj.id === id)
-
-        const updatedQuantity = Number(event.target.value);
-
-        if (updatedQuantity <= -1) {
-            return; // Empêche la mise à jour de la quantité si elle est inférieure ou égale à zéro
-        }
-        const objUpdated = {
-            ...storeState.cart[indexItem],
-            quantity: updatedQuantity
-        }
-
-        dispatch({
-            type: "UPDATEITEM",
-            payload: objUpdated
-        })
-    }
-
-    const removeItem = (id) => {
-        dispatch({
-            type: "REMOVEITEM",
-            payload: id
-        });
-    };
 
     let totalPrice = 0;
-    if (storeState.cart.length !== 0) {
-        for (const item of storeState.cart) {
+    if (myCart.length !== 0) {
+        for (const item of myCart) {
             const itemPrice = item.price * item.quantity;
             totalPrice += itemPrice;
         }
-        totalPrice = Math.max(totalPrice, 0);
 
     }
+
+    const handleChange = (e, documentId) => {
+        const indexItem = myCart.findIndex((obj) => obj.documentId === documentId)
+
+        const value = Number(e.target.value);
+
+        const updateItems = () => {
+            if (value <= 1) {
+                return 1
+            }
+            else if (value >= myCart[indexItem].stock) {
+                return myCart[indexItem].stock
+            }
+            else {
+                return value
+            }
+        }
+        setObjUpdated({
+            ...myCart[indexItem],
+            quantity: updateItems(),
+        });
+        setMyCart([{ ...myCart[indexItem], quantity: updateItems() }]);
+    }
+
+
+
+
+
+
+
+    const removeItem = (documentId) => {
+        dispatch({
+            type: "REMOVEITEM",
+            payload: documentId
+        });
+    };
+
 
 
     const navigate = useNavigate();
 
+
     const handlePaymentButtonClick = () => {
 
+
+        // dispatch({
+        //     type: "UPDATEITEM",
+        //     payload: objUpdated
+        // })
         dispatch(setCartPrice(totalPrice));
-        navigate('/stripecontainer');
+        isLoggedIn ? navigate('/stripecontainer') : navigate('/login');
+        dispatch(setIsFromPayment());
+
+        if (objUpdated) {
+            dispatch(updateQuantityItemCart(objUpdated));
+        }
     };
+
 
 
 
@@ -65,8 +93,8 @@ export default function ShoppingCart() {
         <div className='global-container'>
             <p className='heading-cart'>votre panier</p>
             <ul className="cart-list">
-                {storeState.cart.map((item) => (
-                    <li key={item.id}>
+                {myCart.map((item) => (
+                    <li key={item.documentId}>
                         <img src={process.env.PUBLIC_URL + `/images/${item.img}.png`}
                             alt="" />
                         <div className="bloc-cart-infos">
@@ -76,13 +104,13 @@ export default function ShoppingCart() {
                         <div className='bloc-input'>
                             <label htmlFor="quantityInput">Quantité</label>
                             <input
-                                onChange={e => handleChange(e, item.id)}
+                                onChange={e => handleChange(e, item.documentId)}
                                 type="number"
                                 id="quantityInput"
-                                value={item.quantity} />
+                                value={objUpdated.quantity ? objUpdated.quantity : item.quantity} />
                         </div>
 
-                        <button onClick={() => removeItem(item.id)}>Supprimer</button>
+                        <button onClick={() => removeItem(item.documentId)}>Supprimer</button>
                     </li>
                 ))}
             </ul>
@@ -91,6 +119,7 @@ export default function ShoppingCart() {
             <button className="btn-cart" onClick={handlePaymentButtonClick}>
                 Procéder au paiement {totalPrice} EUR
             </button>
+            <p>Assurez-vous d'être connecter avant de procéder au paiement</p>
 
         </div>
     )
