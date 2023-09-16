@@ -11,8 +11,8 @@ export default function ShoppingCart() {
     const [myCart, setMyCart] = useState(inventoryCart);
     const cartPrice = useSelector((state) => state.auth.cartPrice);
     const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-    const [objUpdated, setObjUpdated] = useState({})
-    const dispatch = useDispatch()
+    const [objUpdated, setObjUpdated] = useState({});
+    const dispatch = useDispatch();
 
 
     useEffect(() => {

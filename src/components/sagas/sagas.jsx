@@ -134,6 +134,21 @@ function* updateQuantityCart(action) {
   }
 }
 
+function* deleteItemCart(action) {
+  const { documentId } = action.payload;
+  try {
+    const productRef = doc(db, 'cart', documentId);
+    yield call(deleteDoc, productRef);
+
+    // Dispatchez une action de réussite si nécessaire
+    yield put(deleteProductSuccess());
+  } catch (error) {
+    // Gérez l'erreur et dispatchez une action d'échec avec un message d'erreur si nécessaire
+    const errorMessage = error.message;
+    yield put(deleteProductFailure(errorMessage));
+  }
+}
+
 
 export default function* authSaga() {
   yield takeLatest(SIGNUP_REQUEST, register);
